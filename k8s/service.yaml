@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: capstone-web
+  labels:
+    app.kubernetes.io/name: capstone-web
+spec:
+  type: LoadBalancer
+  selector:
+    app.kubernetes.io/name: capstone-web
+  ports:
+    - name: http
+      port: 80
+      targetPort: http
+      protocol: TCP

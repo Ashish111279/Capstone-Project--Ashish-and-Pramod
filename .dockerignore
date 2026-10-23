@@ -1,0 +1,10 @@
+.git
+.gitignore
+__pycache__/
+*.py[cod]
+.venv/
+tests/
+terraform/
+ansible/
+k8s/
+monitoring/

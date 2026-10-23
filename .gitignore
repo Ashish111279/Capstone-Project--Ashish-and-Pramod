@@ -1,0 +1,14 @@
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
+terraform.tfvars
+*.auto.tfvars
+!*.example.tfvars
+ansible/inventory.ini
+ansible/*.retry
+__pycache__/
+*.py[cod]
+.venv/
+.env
+coverage/

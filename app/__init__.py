@@ -1,0 +1,1 @@
+"""Capstone web application package."""

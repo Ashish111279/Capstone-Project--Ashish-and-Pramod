@@ -1,0 +1,29 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: capstone-web-alerts
+  namespace: capstone
+  labels:
+    release: monitoring
+spec:
+  groups:
+    - name: capstone.web
+      rules:
+        - alert: CapstoneWebUnavailable
+          expr: up{service="capstone-web"} == 0
+          for: 2m
+          labels:
+            severity: critical
+          annotations:
+            summary: Capstone web metrics endpoint is unavailable
+        - alert: CapstoneWebHigh5xxRate
+          expr: |
+            sum(rate(app_http_requests_total{path!="/metrics",status=~"5.."}[5m]))
+            /
+            clamp_min(sum(rate(app_http_requests_total{path!="/metrics"}[5m])), 0.001)
+            > 0.05
+          for: 5m
+          labels:
+            severity: warning
+          annotations:
+            summary: More than 5% of capstone web requests are failing

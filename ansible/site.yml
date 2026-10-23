@@ -1,0 +1,58 @@
+---
+- name: Prepare isolated Jenkins build runners
+  hosts: jenkins_runners
+  become: true
+  vars:
+    kubectl_version: "v1.35.0"
+    jenkins_agent_user: jenkins
+
+  tasks:
+    - name: Install runner dependencies
+      ansible.builtin.apt:
+        name:
+          - ca-certificates
+          - curl
+          - docker.io
+          - git
+          - openjdk-21-jre-headless
+          - python3
+          - unzip
+        state: present
+        update_cache: true
+
+    - name: Install AWS CLI v2
+      ansible.builtin.unarchive:
+        src: https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip
+        dest: /tmp
+        remote_src: true
+        creates: /usr/local/bin/aws
+
+    - name: Run AWS CLI installer
+      ansible.builtin.command: /tmp/aws/install --update
+      args:
+        creates: /usr/local/bin/aws
+
+    - name: Install kubectl
+      ansible.builtin.get_url:
+        url: "https://dl.k8s.io/release/{{ kubectl_version }}/bin/linux/amd64/kubectl"
+        dest: /usr/local/bin/kubectl
+        mode: "0755"
+
+    - name: Install Terraform
+      ansible.builtin.unarchive:
+        src: https://releases.hashicorp.com/terraform/1.10.5/terraform_1.10.5_linux_amd64.zip
+        dest: /usr/local/bin
+        remote_src: true
+        creates: /usr/local/bin/terraform
+
+    - name: Ensure Docker is running
+      ansible.builtin.service:
+        name: docker
+        state: started
+        enabled: true
+
+    - name: Allow the Jenkins agent to use Docker
+      ansible.builtin.user:
+        name: "{{ jenkins_agent_user }}"
+        groups: docker
+        append: true
