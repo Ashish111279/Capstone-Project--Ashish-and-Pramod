@@ -340,11 +340,18 @@ Through this project, we gained hands-on experience in:
 Resume Description:-
 
 End-to-End DevOps Pipeline for a Web Application | AWS, Jenkins, Terraform, Ansible, Docker, Kubernetes (EKS), Prometheus & Grafana
+
 . Developing and automating a complete CI/CD pipeline using Jenkins, Docker, Terraform, and Ansible.
+
 . Provisioning AWS infrastructure including VPC, EKS, ECR, IAM, and networking resources using Terraform.
+
 . Deploying containerized applications to Amazon EKS with automated Kubernetes rollouts.
+
 . Configuring Jenkins build runners using Ansible automation.
+
 . Implementing monitoring, alerting, and visualization using Prometheus and Grafana.
+
 . Applying Infrastructure as Code (IaC), cloud security best practices, and automated deployment strategies.
+
 . Building a scalable, secure, and highly available cloud-native application deployment platform.
  
